@@ -4,8 +4,8 @@ import { useEffect, useRef } from "react";
 
 /**
  * Chrome liquid swoosh divider.
- * Parallax: path shifts slightly as user scrolls past it.
- * Matches the silver liquid wave reference image.
+ * Scroll effect: 3-axis parallax — translateY + perspective rotateX gives
+ * the wave a "rising slab" depth effect as the user scrolls past it.
  */
 export default function Swoosh({ flip = false }: { flip?: boolean }) {
   const svgRef = useRef<SVGSVGElement>(null);
@@ -17,13 +17,19 @@ export default function Swoosh({ flip = false }: { flip?: boolean }) {
     const onScroll = () => {
       const rect = svg.getBoundingClientRect();
       const vh = window.innerHeight;
-      // -1 (above) to 1 (below) relative position
+      // rel: -1 when element is below viewport, 0 at centre, +1 above
       const rel = (vh / 2 - (rect.top + rect.height / 2)) / vh;
-      const offset = rel * 18;
-      svg.style.transform = `translateY(${offset}px)`;
+
+      const translateY = rel * 24;          // vertical parallax shift
+      const rotateX   = rel * -18;          // tilt toward / away in 3-D
+      const scaleX    = 1 + Math.abs(rel) * 0.03; // very subtle stretch
+
+      svg.style.transform =
+        `perspective(700px) rotateX(${rotateX}deg) translateY(${translateY}px) scaleX(${scaleX})`;
     };
 
     window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll(); // set on mount
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
@@ -45,7 +51,14 @@ export default function Swoosh({ flip = false }: { flip?: boolean }) {
         viewBox="0 0 1440 90"
         xmlns="http://www.w3.org/2000/svg"
         preserveAspectRatio="none"
-        style={{ display: "block", width: "100%", height: "90px", transition: "transform 0.1s linear" }}
+        style={{
+          display: "block",
+          width: "100%",
+          height: "90px",
+          transition: "transform 0.07s linear",
+          transformOrigin: "50% 50%",
+          willChange: "transform",
+        }}
       >
         <defs>
           <linearGradient id="chrome-grad" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -70,7 +83,7 @@ export default function Swoosh({ flip = false }: { flip?: boolean }) {
           </filter>
         </defs>
 
-        {/* Shadow/depth layer */}
+        {/* Shadow / depth fill */}
         <path
           className="swoosh-path"
           d="M0,55 C180,90 360,20 540,48 C720,76 900,18 1080,44 C1260,70 1380,35 1440,45 L1440,90 L0,90 Z"
@@ -78,7 +91,7 @@ export default function Swoosh({ flip = false }: { flip?: boolean }) {
           style={{ animationDelay: "0s" }}
         />
 
-        {/* Main chrome wave — thick */}
+        {/* Main chrome wave */}
         <path
           className="swoosh-path"
           d="M0,58 C200,92 380,18 560,46 C740,74 920,16 1100,42 C1280,68 1380,32 1440,44"
@@ -89,7 +102,7 @@ export default function Swoosh({ flip = false }: { flip?: boolean }) {
           style={{ animationDelay: "0.4s" }}
         />
 
-        {/* Secondary highlight — thin, offset */}
+        {/* Secondary highlight */}
         <path
           className="swoosh-path"
           d="M0,62 C220,95 400,22 580,50 C760,78 940,20 1120,46 C1300,72 1390,38 1440,48"
@@ -99,7 +112,7 @@ export default function Swoosh({ flip = false }: { flip?: boolean }) {
           style={{ animationDelay: "0.8s" }}
         />
 
-        {/* Specular highlight — bright center flash */}
+        {/* Specular centre flash */}
         <path
           className="swoosh-path"
           d="M380,42 C480,22 600,60 720,46 C840,32 960,54 1060,40"
