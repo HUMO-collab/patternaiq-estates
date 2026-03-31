@@ -1,22 +1,23 @@
 @import "tailwindcss";
 
 :root {
-  --bg: #080808;
-  --blue: #0066FF;
-  --blue-bright: #3385FF;
-  --blue-dim: rgba(0, 102, 255, 0.12);
-  --white: #FFFFFF;
-  --grey: #A0A0A0;
-  --grey-dim: #2A2A2A;
-  --border: rgba(255, 255, 255, 0.08);
-  --border-blue: rgba(0, 102, 255, 0.3);
+  --bg:          #0B1120;
+  --bg-2:        #0F1628;
+  --blue:        #4BA8D4;
+  --blue-dim:    rgba(75, 168, 212, 0.12);
+  --blue-bright: #6DBFE8;
+  --teal:        #3DBFA0;
+  --teal-dim:    rgba(61, 191, 160, 0.12);
+  --orange:      #E8803A;
+  --orange-dim:  rgba(232, 128, 58, 0.1);
+  --chrome:      #C0CAD6;
+  --chrome-dim:  rgba(192, 202, 214, 0.55);
+  --white:       #FFFFFF;
+  --border:      rgba(192, 202, 214, 0.1);
+  --border-blue: rgba(75, 168, 212, 0.3);
 }
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
 html {
   scroll-behavior: smooth;
@@ -31,46 +32,72 @@ body {
   overflow-x: hidden;
 }
 
-/* Grain overlay */
+/* Grain texture */
 body::before {
   content: '';
   position: fixed;
   inset: 0;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
-  opacity: 0.028;
+  opacity: 0.022;
   pointer-events: none;
   z-index: 9999;
 }
 
-/* Scroll entrance animations */
+/* ─── Scroll entrance ─── */
 .reveal {
   opacity: 0;
-  transform: translateY(32px);
-  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
-              transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  transform: translateY(28px);
+  transition: opacity 0.75s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
 }
-
-.reveal.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
+.reveal.visible { opacity: 1; transform: translateY(0); }
 .reveal-delay-1 { transition-delay: 0.1s; }
 .reveal-delay-2 { transition-delay: 0.2s; }
 .reveal-delay-3 { transition-delay: 0.3s; }
-.reveal-delay-4 { transition-delay: 0.4s; }
+.reveal-delay-4 { transition-delay: 0.45s; }
 
-/* Blue glow pulse on CTA */
-@keyframes glow-pulse {
-  0%, 100% { box-shadow: 0 0 24px rgba(0, 102, 255, 0.4), 0 0 48px rgba(0, 102, 255, 0.15); }
-  50%       { box-shadow: 0 0 36px rgba(0, 102, 255, 0.65), 0 0 72px rgba(0, 102, 255, 0.25); }
+/* ─── Neural node pulse ─── */
+@keyframes node-pulse {
+  0%, 100% { r: 4; opacity: 0.6; }
+  50%       { r: 6; opacity: 1;   }
+}
+@keyframes node-pulse-teal {
+  0%, 100% { r: 5; opacity: 0.5; }
+  50%       { r: 7; opacity: 0.9; }
+}
+@keyframes node-pulse-orange {
+  0%, 100% { r: 3.5; opacity: 0.5; }
+  50%       { r: 5;   opacity: 1;   }
+}
+@keyframes edge-flow {
+  0%   { stroke-dashoffset: 200; opacity: 0.15; }
+  50%  { opacity: 0.45; }
+  100% { stroke-dashoffset: 0;   opacity: 0.15; }
 }
 
+/* ─── Swoosh wave ─── */
+@keyframes swoosh-drift {
+  0%   { transform: translateX(0) scaleY(1); }
+  50%  { transform: translateX(-12px) scaleY(1.04); }
+  100% { transform: translateX(0) scaleY(1); }
+}
+.swoosh-path {
+  animation: swoosh-drift 6s ease-in-out infinite;
+  transform-origin: center;
+}
+
+/* ─── CTA glow ─── */
+@keyframes glow-pulse {
+  0%, 100% { box-shadow: 0 0 20px rgba(75,168,212,0.35), 0 0 40px rgba(75,168,212,0.12); }
+  50%       { box-shadow: 0 0 32px rgba(75,168,212,0.55), 0 0 64px rgba(75,168,212,0.22); }
+}
+
+/* ─── Buttons ─── */
 .btn-primary {
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  background: var(--blue);
+  background: linear-gradient(135deg, #4BA8D4 0%, #3DBFA0 100%);
   color: #fff;
   font-weight: 600;
   font-size: 1rem;
@@ -81,21 +108,17 @@ body::before {
   cursor: pointer;
   text-decoration: none;
   animation: glow-pulse 3s ease-in-out infinite;
-  transition: background 0.2s, transform 0.15s;
+  transition: opacity 0.2s, transform 0.15s;
   white-space: nowrap;
 }
-
-.btn-primary:hover {
-  background: var(--blue-bright);
-  transform: translateY(-1px);
-}
+.btn-primary:hover { opacity: 0.88; transform: translateY(-1px); }
 
 .btn-outline {
   display: inline-flex;
   align-items: center;
   gap: 10px;
   background: transparent;
-  color: #fff;
+  color: var(--chrome);
   font-weight: 600;
   font-size: 1rem;
   padding: 15px 32px;
@@ -106,26 +129,24 @@ body::before {
   transition: border-color 0.2s, background 0.2s, transform 0.15s;
   white-space: nowrap;
 }
-
 .btn-outline:hover {
-  border-color: rgba(255,255,255,0.4);
-  background: rgba(255,255,255,0.05);
+  border-color: rgba(192,202,214,0.4);
+  background: rgba(192,202,214,0.05);
   transform: translateY(-1px);
 }
 
-/* Section label */
+/* ─── Section label ─── */
 .section-label {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   font-weight: 600;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--blue);
   margin-bottom: 20px;
 }
-
 .section-label::before {
   content: '';
   width: 20px;
@@ -133,32 +154,27 @@ body::before {
   background: var(--blue);
 }
 
-/* Glass card */
+/* ─── Glass card ─── */
 .glass-card {
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(192, 202, 214, 0.03);
   border: 1px solid var(--border);
   border-radius: 12px;
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   transition: border-color 0.3s, background 0.3s;
 }
-
 .glass-card:hover {
   border-color: var(--border-blue);
-  background: rgba(0, 102, 255, 0.04);
+  background: rgba(75, 168, 212, 0.04);
 }
 
-/* Blue line divider */
 .blue-line {
-  width: 48px;
+  width: 40px;
   height: 2px;
-  background: var(--blue);
+  background: linear-gradient(90deg, var(--blue), var(--teal));
   margin-bottom: 20px;
 }
 
 @media (max-width: 768px) {
-  .btn-primary, .btn-outline {
-    width: 100%;
-    justify-content: center;
-  }
+  .btn-primary, .btn-outline { width: 100%; justify-content: center; }
 }

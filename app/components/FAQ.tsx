@@ -26,20 +26,13 @@ function FAQItem({ q, a, defaultOpen = false }: { q: string; a: string; defaultO
   return (
     <div
       style={{
-        borderBottom: "1px solid rgba(255,255,255,0.07)",
+        borderBottom: "1px solid rgba(192,202,214,0.07)",
         padding: "28px 0",
         cursor: "pointer",
       }}
       onClick={() => setOpen((v) => !v)}
     >
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          gap: "24px",
-        }}
-      >
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: "24px" }}>
         <span
           style={{
             fontFamily: "var(--font-space)",
@@ -47,22 +40,19 @@ function FAQItem({ q, a, defaultOpen = false }: { q: string; a: string; defaultO
             fontSize: "clamp(15px, 1.8vw, 18px)",
             letterSpacing: "-0.01em",
             lineHeight: 1.4,
-            color: open ? "#fff" : "rgba(255,255,255,0.8)",
+            color: open ? "#fff" : "rgba(192,202,214,0.75)",
+            transition: "color 0.2s",
           }}
         >
           {q}
         </span>
         <svg
-          width="20"
-          height="20"
-          viewBox="0 0 20 20"
-          fill="none"
-          aria-hidden="true"
+          width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"
           style={{
             flexShrink: 0,
             transform: open ? "rotate(45deg)" : "rotate(0deg)",
             transition: "transform 0.25s cubic-bezier(0.22,1,0.36,1)",
-            color: open ? "#0066FF" : "rgba(255,255,255,0.4)",
+            color: open ? "#4BA8D4" : "rgba(192,202,214,0.35)",
           }}
         >
           <path d="M10 4v12M4 10h12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
@@ -75,15 +65,7 @@ function FAQItem({ q, a, defaultOpen = false }: { q: string; a: string; defaultO
           transition: "max-height 0.35s cubic-bezier(0.22,1,0.36,1)",
         }}
       >
-        <p
-          style={{
-            paddingTop: "16px",
-            color: "rgba(255,255,255,0.5)",
-            lineHeight: 1.75,
-            fontSize: "0.95rem",
-            maxWidth: "680px",
-          }}
-        >
+        <p style={{ paddingTop: "16px", color: "rgba(192,202,214,0.5)", lineHeight: 1.75, fontSize: "0.93rem", maxWidth: "680px" }}>
           {a}
         </p>
       </div>
@@ -110,7 +92,6 @@ export default function FAQ() {
       ref={ref}
       style={{
         padding: "120px clamp(20px, 6vw, 80px)",
-        borderBottom: "1px solid rgba(255,255,255,0.06)",
         maxWidth: "900px",
         marginLeft: "auto",
         marginRight: "auto",
@@ -127,6 +108,7 @@ export default function FAQ() {
           letterSpacing: "-0.03em",
           lineHeight: 1.1,
           marginBottom: "64px",
+          color: "#fff",
         }}
       >
         Straight answers.

@@ -5,12 +5,12 @@ import { useEffect, useRef } from "react";
 const WA_NUMBER = "27000000000"; // TODO: replace with real number
 
 const INCLUDES = [
-  "AI lead generation system (exclusive to you)",
-  "10–20 qualified buyer & seller leads per month",
-  "Automated WhatsApp delivery — no new tools",
-  "Lead pre-qualification before they reach you",
-  "Automated follow-up sequences",
-  "Monthly performance review + optimisation",
+  { text: "AI lead generation system (exclusive to you)",      color: "#4BA8D4" },
+  { text: "10–20 qualified buyer & seller leads per month",    color: "#3DBFA0" },
+  { text: "Automated WhatsApp delivery — no new tools",        color: "#4BA8D4" },
+  { text: "Lead pre-qualification before they reach you",      color: "#3DBFA0" },
+  { text: "Automated follow-up sequences",                     color: "#E8803A" },
+  { text: "Monthly performance review + optimisation",         color: "#4BA8D4" },
 ];
 
 export default function Offer() {
@@ -32,14 +32,12 @@ export default function Offer() {
       ref={ref}
       style={{
         padding: "120px clamp(20px, 6vw, 80px)",
-        borderBottom: "1px solid rgba(255,255,255,0.06)",
         display: "grid",
         gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
         gap: "64px",
         alignItems: "center",
       }}
     >
-      {/* Left */}
       <div>
         <div className="reveal section-label">The Offer</div>
         <h2
@@ -51,23 +49,27 @@ export default function Offer() {
             letterSpacing: "-0.03em",
             lineHeight: 1.1,
             marginBottom: "24px",
+            color: "#fff",
           }}
         >
           Everything you need.{" "}
-          <span style={{ color: "#0066FF" }}>Nothing you don&apos;t.</span>
+          <span
+            style={{
+              background: "linear-gradient(135deg, #4BA8D4 0%, #3DBFA0 100%)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              backgroundClip: "text",
+            }}
+          >
+            Nothing you don&apos;t.
+          </span>
         </h2>
         <p
           className="reveal reveal-delay-2"
-          style={{
-            color: "rgba(255,255,255,0.5)",
-            lineHeight: 1.75,
-            fontSize: "1rem",
-            maxWidth: "440px",
-            marginBottom: "40px",
-          }}
+          style={{ color: "rgba(192,202,214,0.5)", lineHeight: 1.75, fontSize: "1rem", maxWidth: "440px", marginBottom: "40px" }}
         >
-          One flat engagement. We build it, run it, and deliver results. You focus on
-          closing — we handle everything before the conversation starts.
+          One flat engagement. We build it, run it, and deliver results. You focus on closing —
+          we handle everything before the conversation starts.
         </p>
         <div className="reveal reveal-delay-3">
           <a
@@ -84,39 +86,29 @@ export default function Offer() {
         </div>
       </div>
 
-      {/* Right — includes card */}
-      <div
-        className="glass-card reveal reveal-delay-2"
-        style={{ padding: "48px 40px" }}
-      >
+      <div className="glass-card reveal reveal-delay-2" style={{ padding: "48px 40px" }}>
         <div
           style={{
             fontFamily: "var(--font-space)",
             fontWeight: 700,
-            fontSize: "1.1rem",
+            fontSize: "1rem",
             marginBottom: "32px",
             letterSpacing: "-0.01em",
+            color: "#C0CAD6",
           }}
         >
           What&apos;s included
         </div>
 
         <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-          {INCLUDES.map((item) => (
-            <div key={item} style={{ display: "flex", alignItems: "flex-start", gap: "12px" }}>
-              <svg
-                width="18"
-                height="18"
-                viewBox="0 0 18 18"
-                fill="none"
-                aria-hidden="true"
-                style={{ flexShrink: 0, marginTop: "2px" }}
-              >
-                <circle cx="9" cy="9" r="7.5" stroke="#0066FF" strokeWidth="1.2"/>
-                <path d="M6 9l2.5 2.5 4-4" stroke="#0066FF" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+          {INCLUDES.map(({ text, color }) => (
+            <div key={text} style={{ display: "flex", alignItems: "flex-start", gap: "12px" }}>
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true" style={{ flexShrink: 0, marginTop: "2px" }}>
+                <circle cx="9" cy="9" r="7.5" stroke={color} strokeWidth="1.2"/>
+                <path d="M6 9l2.5 2.5 4-4" stroke={color} strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
-              <span style={{ color: "rgba(255,255,255,0.75)", fontSize: "0.95rem", lineHeight: 1.5 }}>
-                {item}
+              <span style={{ color: "rgba(192,202,214,0.75)", fontSize: "0.93rem", lineHeight: 1.55 }}>
+                {text}
               </span>
             </div>
           ))}
@@ -125,10 +117,10 @@ export default function Offer() {
         <div
           style={{
             marginTop: "36px",
-            paddingTop: "28px",
-            borderTop: "1px solid rgba(255,255,255,0.07)",
-            fontSize: "0.8rem",
-            color: "rgba(255,255,255,0.35)",
+            paddingTop: "24px",
+            borderTop: "1px solid rgba(192,202,214,0.07)",
+            fontSize: "0.78rem",
+            color: "rgba(192,202,214,0.3)",
             lineHeight: 1.6,
           }}
         >
